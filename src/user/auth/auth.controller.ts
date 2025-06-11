@@ -1,15 +1,16 @@
-
 // src/auth/auth.controller.ts
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get, Query, ValidationPipe, UsePipes } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { RequestVerificationDto } from './dto/email-verification.dto';
+import { CheckEmailDto } from './dto/email-verification.dto';
 
-@Controller('auth')
+@Controller('/user/auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('request-code')
-  requestCode(@Body() dto: RequestVerificationDto) {
-    return this.authService.requestVerificationCode(dto);
+  @Post('checkExistsEmail')
+  @UsePipes(new ValidationPipe({ transform: true }))
+  async checkExists(@Body() body: CheckEmailDto) {
+    const exists = await this.authService.checkUserExists(body.email);
+    return { exists };
   }
 }
