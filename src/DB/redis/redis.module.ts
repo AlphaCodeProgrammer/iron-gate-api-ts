@@ -1,5 +1,6 @@
-import { Module, Global , Logger } from '@nestjs/common';
+import { Module, Global, Logger } from '@nestjs/common';
 import { createClient } from 'redis';
+import { RedisService } from './redis.service';
 
 @Global()
 @Module({
@@ -11,11 +12,11 @@ import { createClient } from 'redis';
         client.on('error', (err) => console.error('Redis Client Error', err));
         await client.connect();
         Logger.log('✅ Redis connected successfully');
-
         return client;
       },
     },
+    RedisService,
   ],
-  exports: ['REDIS_CLIENT'],
+  exports: ['REDIS_CLIENT', RedisService],
 })
 export class RedisModule {}
