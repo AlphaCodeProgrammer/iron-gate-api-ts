@@ -1,3 +1,5 @@
+// src/DB/redis/redis.module.ts
+
 import { Module, Global , Logger } from '@nestjs/common';
 import { createClient } from 'redis';
 
