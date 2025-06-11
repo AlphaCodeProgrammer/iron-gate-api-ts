@@ -12,14 +12,15 @@ export class AuthService {
     private readonly mailService: MailService,
     private readonly redisService: RedisService,
   ) {}
-  async checkUserExistsOrThrow(email: string): Promise<void> {
+  async checkUserExistsOrThrow(email: string): Promise<{ success: boolean }> {
     const exists = await this.userRepository.existsByEmail(email);
     if (exists) {
       throw new UserAlreadyExistsException();
     }
     const otp = await generateOtp();
     const key = `otp:${email}`;
-    // await this.redisService.set(key, otp, 300);
-    // await this.mailService.sendOtpToEmail(email, otp);
+    await this.redisService.set(key, otp, 300);
+    await this.mailService.sendOtpToEmail(email, otp);
+    return { success: true };
   }
 }
