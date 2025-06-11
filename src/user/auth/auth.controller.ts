@@ -10,7 +10,7 @@ export class AuthController {
   @Post('checkExistsEmail')
   @UsePipes(new ValidationPipe({ transform: true }))
   async checkExists(@Body() body: CheckEmailDto) {
-    const exists = await this.authService.checkUserExists(body.email);
+    const exists = await this.authService.checkUserExistsOrThrow(body.email);
     return { exists };
   }
 }

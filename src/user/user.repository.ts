@@ -1,11 +1,14 @@
-import { Injectable, ConflictException, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/DB/prisma/prisma.service'; // یا مسیر مناسب پروژه‌ات
 import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class UserRepository {
   constructor(private readonly prisma: PrismaService) {}
-
 
   async existsByEmail(email: string): Promise<boolean> {
     try {
@@ -15,8 +18,9 @@ export class UserRepository {
       });
       return !!user;
     } catch (err) {
-      throw new InternalServerErrorException('Error checking user existence by email');
+      throw new InternalServerErrorException(
+        'Server Error checking user existence by email',
+      );
     }
   }
-
 }
