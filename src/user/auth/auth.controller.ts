@@ -2,6 +2,8 @@
 import { Controller, Post, Body, Get, Query, ValidationPipe, UsePipes } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CheckEmailDto } from './dto/email-verification.dto';
+import { SuccessRegister } from '../interceptors/success-register.response';
+
 
 @Controller('/user/auth')
 export class AuthController {
@@ -11,6 +13,5 @@ export class AuthController {
   @UsePipes(new ValidationPipe({ transform: true }))
   async checkExists(@Body() body: CheckEmailDto) {
     const exists = await this.authService.checkUserExistsOrThrow(body.email);
-    return { exists };
-  }
+    return new SuccessRegister({ email: body.email });  }
 }

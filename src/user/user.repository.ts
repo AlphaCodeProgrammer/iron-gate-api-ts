@@ -1,10 +1,9 @@
 import {
   Injectable,
-  ConflictException,
   InternalServerErrorException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/DB/prisma/prisma.service'; // یا مسیر مناسب پروژه‌ات
-import { Prisma } from '@prisma/client';
+
 
 @Injectable()
 export class UserRepository {
@@ -14,13 +13,13 @@ export class UserRepository {
     try {
       const user = await this.prisma.user.findUnique({
         where: { email },
-        select: { id: true }, // فقط id بگیر، سریع‌تر و امن‌تره
+        select: { id: true },
       });
       return !!user;
     } catch (err) {
-      throw new InternalServerErrorException(
-        'Server Error checking user existence by email',
-      );
+      console.error('🔥 Prisma error:', err);
+      throw new InternalServerErrorException('Server Error checking user existence by email');
     }
   }
+  
 }

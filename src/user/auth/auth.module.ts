@@ -5,9 +5,11 @@ import { AuthService } from './auth.service';
 import { UserRepository } from '../user.repository';
 import { PrismaModule } from 'src/DB/prisma/prisma.module';
 import { RedisModule } from 'src/DB/redis/redis.module';
+import { MailService } from './mail.service';
 @Module({
   imports: [PrismaModule, RedisModule],
-  controllers: [AuthController],
-  providers: [AuthService, UserRepository],
+  controllers: [AuthController, MailService],
+  providers: [AuthService, UserRepository, MailService],
+  exports: [MailService, MailService],
 })
 export class AuthModule {}
