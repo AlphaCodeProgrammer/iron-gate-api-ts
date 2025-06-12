@@ -9,5 +9,6 @@ import { UserModule } from './user/user.module';
   imports: [PrismaModule, RedisModule, UserModule],
   controllers: [AppController],
   providers: [AppService],
+  exports: [],
 })
 export class AppModule {}

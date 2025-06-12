@@ -1,4 +1,6 @@
-import { Module, Global, Logger } from '@nestjs/common';
+// src/DB/redis/redis.module.ts
+
+import { Module, Global , Logger } from '@nestjs/common';
 import { createClient } from 'redis';
 import { RedisService } from './redis.service';
 
