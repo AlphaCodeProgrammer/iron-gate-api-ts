@@ -1,9 +1,7 @@
-// src/user/exceptions/user-already-exist.exception.ts
+import { ConflictException } from '@nestjs/common';
 
-import { BadRequestException } from '@nestjs/common';
-
-export class UserAlreadyExistsException extends BadRequestException {
+export class UserAlreadyExistsException extends ConflictException {
   constructor() {
-    super('این کاربر قبلاً ثبت‌ نام کرده است . لطفاً وارد شوید.');
+    super('این کاربر قبلاً ثبت‌ نام کرده است. لطفاً وارد شوید.');
   }
 }

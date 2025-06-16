@@ -1,25 +1,30 @@
-import {
-  Injectable,
-  InternalServerErrorException,
-} from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { PrismaService } from 'src/DB/prisma/prisma.service'; // یا مسیر مناسب پروژه‌ات
-
+import { RedisService } from 'src/DB/redis/redis.service';
 
 @Injectable()
 export class UserRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly redisService: RedisService,
+  ) {}
 
-  async existsByEmail(email: string): Promise<boolean> {
-    try {
-      const user = await this.prisma.user.findUnique({
-        where: { email },
-        select: { id: true },
-      });
-      return !!user;
-    } catch (err) {
-      console.error('🔥 Prisma error:', err);
-      throw new InternalServerErrorException('Server Error checking user existence by email');
-    }
+  async emailExists(email: string): Promise<boolean> {
+    const user = await this.prisma.user.findUnique({
+      where: { email }
+    });
+    return !!user;
   }
-  
+  async verifyOtp(email: string, otp: string): Promise<boolean> {
+    const key = `otp:${email}`;
+    const storedOtp = await this.redisService.get(key);
+    return storedOtp === otp;
+  }
+  async createUser(data: {
+    email: string;
+    username: string;
+    password: string;
+  }) {
+    return this.prisma.user.create({ data });
+  }
 }
