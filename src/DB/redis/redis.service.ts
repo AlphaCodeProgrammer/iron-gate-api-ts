@@ -42,4 +42,12 @@ export class RedisService {
       throw err;
     }
   }
+  async ttl(key: string): Promise<number> {
+    try {
+      return await this.client.ttl(key);
+    } catch (err) {
+      this.logger.error(`Failed to get TTL for key ${key}`, err);
+      throw err;
+    }
+  }
 }
