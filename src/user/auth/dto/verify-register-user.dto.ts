@@ -1,3 +1,4 @@
+// src/user/auth/dto/verify-register-user.dto.ts
 import { IsString, IsEmail, MinLength } from 'class-validator';
 
 export class VerifyRegisterUserDto {

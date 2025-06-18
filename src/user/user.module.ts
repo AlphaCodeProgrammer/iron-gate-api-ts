@@ -7,9 +7,10 @@ import { UserRepository } from './user.repository';
 import { AuthService } from './auth/auth.service';
 import { RedisModule } from 'src/DB/redis/redis.module';
 import { MailService } from './auth/mail.service';
+import { JwtService } from '@nestjs/jwt';
 @Module({
   imports: [PrismaModule, RedisModule],
-  providers: [UserRepository, AuthService, MailService],
+  providers: [UserRepository, AuthService, MailService , JwtService],
   controllers: [AuthController],
   exports: [],
 })

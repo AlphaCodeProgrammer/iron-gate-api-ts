@@ -1,4 +1,4 @@
-// src/auth/mail.service.ts
+// src/user/auth/mail.service.ts
 import { Injectable, Logger } from '@nestjs/common';
 import * as sgMail from '@sendgrid/mail';
 

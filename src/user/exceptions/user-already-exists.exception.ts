@@ -1,3 +1,4 @@
+// src/user/exceptions/user-already-exists.exception.ts
 import { ConflictException } from '@nestjs/common';
 
 export class UserAlreadyExistsException extends ConflictException {
