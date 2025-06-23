@@ -1,3 +1,4 @@
+// src/user/auth/dto/email-verification.dto.ts
 import { IsString, IsEmail, MinLength, MaxLength, IsNotEmpty, Matches } from 'class-validator';
 
 export class CheckEmailDto {

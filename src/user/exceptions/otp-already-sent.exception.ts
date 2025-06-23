@@ -1,3 +1,5 @@
+//src/user/exceptions/otp-already-sent.exception.ts
+
 import { NotFoundException } from '@nestjs/common';
 
 export class OtpAlreadySentException extends NotFoundException {

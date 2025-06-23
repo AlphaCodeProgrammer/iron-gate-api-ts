@@ -1,13 +1,17 @@
-// src/auth/auth.service.ts
+// src/user/auth/auth.service.ts
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { UserRepository } from '../user.repository';
-import { UserAlreadyExistsException } from '../exceptions/user-already-exists.exception';
 import { generateOtp } from 'src/functions/user.functions';
 import { RedisService } from 'src/DB/redis/redis.service';
 import { MailService } from './mail.service';
+import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcryptjs';
+import { UserAlreadyExistsException } from '../exceptions/user-already-exists.exception';
 import { OtpIsNotCorrectException } from '../exceptions/otp-is-not-correct.exception';
 import { OtpAlreadySentException } from '../exceptions/otp-already-sent.exception';
-import * as bcrypt from 'bcryptjs';
+import { UserNotFoundException } from '../exceptions/user-not-found.exception';
+import { WrongPasswordException } from '../exceptions/wrong-password-exception';
+
 
 @Injectable()
 export class AuthService {
@@ -15,6 +19,7 @@ export class AuthService {
     private readonly userRepository: UserRepository,
     private readonly redisService: RedisService,
     private readonly mailService: MailService,
+    private readonly jwtService: JwtService,
   ) {}
   async checkUserExistsOrThrow(email: string): Promise<void> {
     const exists = await this.userRepository.emailExists(email);
@@ -54,4 +59,22 @@ export class AuthService {
       password: hashedPassword,
     });
   }
+
+  async loginUser(email: string, password: string): Promise<{ accessToken: string }> {
+     const user = await this.userRepository.findUserByEmail(email);
+    if (!user) {
+      throw new UserNotFoundException();
+    }
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    if (!isPasswordCorrect) {
+      throw new WrongPasswordException();
+    }
+    const payload = { sub: user.id, email: user.email };  // payload استاندارد JWT
+
+    const accessToken = this.jwtService.sign(payload);
+    return { accessToken };
+
+  }
+
+
 }

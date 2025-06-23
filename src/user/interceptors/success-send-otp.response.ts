@@ -1,4 +1,4 @@
-// src/user/responses/success-register.response.ts
+// src/user/interceptors/success-send-otp.response.ts
 
 import { SuccessResponse } from 'src/common/responses/success.response';
 
