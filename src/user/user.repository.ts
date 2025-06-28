@@ -1,6 +1,6 @@
 // src/user/user.repository.ts
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { PrismaService } from 'src/DB/prisma/prisma.service'; // یا مسیر مناسب پروژه‌ات
+import { PrismaService } from 'src/DB/prisma/prisma.service';
 import { RedisService } from 'src/DB/redis/redis.service';
 import { User } from '@prisma/client';
 @Injectable()
