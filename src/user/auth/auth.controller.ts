@@ -9,7 +9,7 @@ import {
   UsePipes,
   UseGuards,
 } from '@nestjs/common';
-import { JwtAuthGuard } from './jwt-auth.guard';
+import { JwtAuthGuard } from './strategies/jwt-auth.guard';
 
 import { AuthService } from './auth.service';
 import { CheckEmailDto } from './dto/email-verification.dto';
